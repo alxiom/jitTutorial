@@ -19,7 +19,7 @@ class Net(nn.Module):
 
 if __name__ == "__main__":
     model = Net()  # TODO : load trained model
-    tracer = torch.Tensor(np.random.random((1, 3))).float()
+    tracer = torch.Tensor(np.ones((1, 3))).float()
     traced_net = torch.jit.trace(model, tracer)
 
     print(model(tracer))
