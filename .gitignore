@@ -1,5 +1,10 @@
-.idea/
 .DS_Store
+
+write_python/.idea/
 write_python/libtorch/
 write_python/build/
 write_python/*.pth
+
+read_scala/.idea/
+read_scala/target/
+read_scala/project/target/
