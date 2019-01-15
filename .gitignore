@@ -1,5 +1,5 @@
 .idea/
 .DS_Store
-python_cpp/libtorch/
-python_cpp/build/
-python_cpp/*.pth
+write_python/libtorch/
+write_python/build/
+write_python/*.pth
