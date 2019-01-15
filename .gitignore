@@ -1,6 +1,5 @@
-venv/
 .idea/
-libtorch/
-build/
-*.pth
-*.pt
+.DS_Store
+python_cpp/libtorch/
+python_cpp/build/
+python_cpp/*.pth
