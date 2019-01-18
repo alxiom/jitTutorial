@@ -3,6 +3,9 @@ project(custom_ops)
 
 find_package(Torch REQUIRED)
 
-add_executable(model model.cpp)
-target_link_libraries(model "${TORCH_LIBRARIES}")
-set_property(TARGET model PROPERTY CXX_STANDARD 11)
+add_executable(modelBin model.cpp)
+add_library(Model SHARED model.cpp)
+target_link_libraries(modelBin "${TORCH_LIBRARIES}")
+target_link_libraries(Model "${TORCH_LIBRARIES}")
+set_property(TARGET modelBin PROPERTY CXX_STANDARD 11)
+set_property(TARGET Model PROPERTY CXX_STANDARD 11)

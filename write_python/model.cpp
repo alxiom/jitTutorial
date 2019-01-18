@@ -9,8 +9,10 @@ namespace traced {
         this->module = torch::jit::load(modelName);
     }
     Model::~Model () {}
-    std::vector<float> Model::predict (std::vector<std::vector<float>> X) {
-        at::Tensor inputVector = torch::from_blob(&X[0][0], {1, int (X[0].size())}, at::kFloat).clone();
+    std::vector<float> Model::predict (std::vector<float> x) {
+        std::vector<std::vector<float>> xTensor;
+        xTensor.push_back(x);
+        at::Tensor inputVector = torch::from_blob(&xTensor[0][0], {1, int (x.size())}, at::kFloat).clone();
         std::vector<torch::jit::IValue> inputTensor;
         inputTensor.push_back(inputVector);
         at::Tensor outputTensor = this->module->forward(inputTensor).toTensor();
@@ -27,6 +29,6 @@ int main(int argc, const char* argv[]) {
     }
 
     traced::Model model = traced::Model("../traced_model.pth");
-    std::vector<std::vector<float>> x = {{1, 1, 1}};
+    std::vector<float> x = {1, 1, 1};
     std::cout << model.predict(x) << std::endl;
 }

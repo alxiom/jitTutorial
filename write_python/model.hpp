@@ -8,7 +8,7 @@ namespace traced {
             Model(const char* modelName);
             ~Model();
             std::shared_ptr<torch::jit::script::Module> module;
-            std::vector<float> predict(std::vector<std::vector<float>> x);
+            std::vector<float> predict(std::vector<float> x);
     };
 }
 
