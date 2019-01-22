@@ -23,7 +23,7 @@ $ tar -zxvf mklml_mac_2019.0.1.20181227.tgz
 $ mv mklml_mac_2019.0.1.20181227/lib/* /path/to/project/libtorch/lib/
 ```
 
-## Tracing (in python_cpp directory)
+## Tracing (in write_python directory)
 1. add tracing code ```model.py```
 2. write cpp code ```model.cpp```
 3. write CMakeLists ```CMakeLists.txt```
@@ -32,7 +32,7 @@ $ mv mklml_mac_2019.0.1.20181227/lib/* /path/to/project/libtorch/lib/
 $ python model.py
 ```
 
-## build C++ code (in python_cpp directory)
+## build C++ code (in write_python directory)
 1. run cmake
 ```markdown
 $ mkdir build
