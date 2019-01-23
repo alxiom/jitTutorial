@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <array>
 #include <torch/script.h>
 #include "model.hpp"
 
@@ -19,6 +20,21 @@ namespace traced {
         std::vector<float> outputVector(outputTensor.data<float>(), outputTensor.data<float>() + outputTensor.numel());
         return outputVector;
     }
+
+    Eval::Eval () {}
+    Eval::~Eval () {}
+    Model* Eval::createModel (const char* modelName) {
+        Model* pModel = new Model(modelName);
+        return pModel;
+    }
+    float* Eval::evaluate(long pModel, float* x, int vectorLength) {
+        std::vector<float> vectorX (x, x + vectorLength);
+        std::vector<float> vectorY = ((Model*)pModel) -> predict(vectorX);
+        std::cout << vectorY << std::endl;
+        float* y = &vectorY[0];
+        std::cout << y[0] << " " << y[1] << " " << y[2] << " " << y[3] << " " << y[4] << std::endl;
+        return y;
+    }
 }
 
 
@@ -28,7 +44,26 @@ int main(int argc, const char* argv[]) {
         return -1;
     }
 
-    traced::Model model = traced::Model("../traced_model.pth");
-    std::vector<float> x = {1, 1, 1};
-    std::cout << model.predict(x) << std::endl;
+//    traced::Model model = traced::Model("../traced_model.pth");
+//    std::vector<float> x = {1, 1, 1};
+//    std::cout << model.predict(x) << std::endl;
+
+    traced::Eval eval = traced::Eval();
+    long loadModel = long (eval.createModel("../traced_model.pth"));
+//    std::cout << loadModel << std::endl;
+
+    float y[] = {1.0, 1.0, 1.0};
+    int vecLen = sizeof(y) / sizeof(*y);
+    float prediction[5] = {0, 0, 0, 0, 0};
+    prediction = eval.evaluate(loadModel, y, vecLen);
+//    float a[] = {};
+//    a = prediction
+//    std::vector<float> vectorY (prediction, prediction + 5);
+    std::cout << prediction << std::endl;
+//    float* a = prediction;
+//    std::cout << a[0] << std::endl;
+//    std::cout << prediction[0] << prediction[1] << prediction[2] << prediction[3] << prediction[4] << std::endl;
+//    std::cout << *(prediction + 2) << std::endl;
+//    std::cout << prediction << std::endl;
+
 }

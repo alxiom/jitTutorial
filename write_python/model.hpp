@@ -10,6 +10,13 @@ namespace traced {
             std::shared_ptr<torch::jit::script::Module> module;
             std::vector<float> predict(std::vector<float> x);
     };
+    class Eval {
+        public:
+            Eval();
+            ~Eval();
+            Model* createModel(const char* modelName);
+            float* evaluate(long pModel, float* x, int vectorLength);
+    };
 }
 
 #endif
