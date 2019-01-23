@@ -15,7 +15,7 @@ namespace traced {
             Eval();
             ~Eval();
             Model* createModel(const char* modelName);
-            float* evaluate(long pModel, float* x, int vectorLength);
+            float* evaluate(long pModel, float* x, int vectorXSize);
     };
 }
 

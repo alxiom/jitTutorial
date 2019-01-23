@@ -3,6 +3,8 @@
 #include <array>
 #include <torch/script.h>
 #include "model.hpp"
+#define MAX_SIZE 256
+
 
 namespace traced {
     Model::Model () {}
@@ -27,12 +29,15 @@ namespace traced {
         Model* pModel = new Model(modelName);
         return pModel;
     }
-    float* Eval::evaluate(long pModel, float* x, int vectorLength) {
-        std::vector<float> vectorX (x, x + vectorLength);
+    float* Eval::evaluate(long pModel, float* x, int vectorXSize) {
+        std::vector<float> vectorX (x, x + vectorXSize);
         std::vector<float> vectorY = ((Model*)pModel) -> predict(vectorX);
         std::cout << vectorY << std::endl;
-        float* y = &vectorY[0];
-        std::cout << y[0] << " " << y[1] << " " << y[2] << " " << y[3] << " " << y[4] << std::endl;
+        static float* y;
+        y = (float*) malloc(MAX_SIZE * sizeof(float));
+        for (int i = 0; i < vectorY.size(); ++i) {
+            y[i] = vectorY[i];
+        }
         return y;
     }
 }
@@ -44,26 +49,16 @@ int main(int argc, const char* argv[]) {
         return -1;
     }
 
-//    traced::Model model = traced::Model("../traced_model.pth");
-//    std::vector<float> x = {1, 1, 1};
-//    std::cout << model.predict(x) << std::endl;
+    traced::Model model = traced::Model("../traced_model.pth");
+    std::vector<float> vectorX = {1.0, 1.0, 1.0};
+    std::cout << model.predict(vectorX) << std::endl;
 
     traced::Eval eval = traced::Eval();
     long loadModel = long (eval.createModel("../traced_model.pth"));
-//    std::cout << loadModel << std::endl;
 
-    float y[] = {1.0, 1.0, 1.0};
-    int vecLen = sizeof(y) / sizeof(*y);
-    float prediction[5] = {0, 0, 0, 0, 0};
-    prediction = eval.evaluate(loadModel, y, vecLen);
-//    float a[] = {};
-//    a = prediction
-//    std::vector<float> vectorY (prediction, prediction + 5);
-    std::cout << prediction << std::endl;
-//    float* a = prediction;
-//    std::cout << a[0] << std::endl;
-//    std::cout << prediction[0] << prediction[1] << prediction[2] << prediction[3] << prediction[4] << std::endl;
-//    std::cout << *(prediction + 2) << std::endl;
-//    std::cout << prediction << std::endl;
+    float* x = &vectorX[0];
+    int xSize = vectorX.size();
+    float* p = eval.evaluate(loadModel, x, xSize);
+    std::cout << p[0] << " " << p[1] << " " << p[2] << " " << p[3] << " " << p[4] << std::endl;
 
 }
