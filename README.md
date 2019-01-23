@@ -18,7 +18,7 @@ $ mv libtorch /path/to/project
 ```
 4. Install mkl-ml library
 ```markdown
-https://github.com/intel/mkl-dnn/releases (version : mklml_mac_2019.0.1.20181227.tgz)
+https://github.com/intel/mkl-dnn/releases/download/v0.17.2/mklml_mac_2019.0.1.20181227.tgz
 $ tar -zxvf mklml_mac_2019.0.1.20181227.tgz
 $ mv mklml_mac_2019.0.1.20181227/lib/* /path/to/project/libtorch/lib/
 ```
