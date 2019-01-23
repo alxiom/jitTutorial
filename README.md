@@ -1,9 +1,9 @@
 # PyTorch JIT
 
 ## Requirements
-cmake == 3.13.3
-scala == 2.12.8
-java == 1.8.0
++ cmake == 3.13.3
++ scala == 2.12.8
++ java == 1.8.0
 
 ## Preparation
 1. Upgrade PyTorch
