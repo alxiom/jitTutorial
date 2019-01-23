@@ -1,6 +1,4 @@
 #include <iostream>
-#include <memory>
-#include <array>
 #include <torch/script.h>
 #include "model.hpp"
 #define MAX_SIZE 256
