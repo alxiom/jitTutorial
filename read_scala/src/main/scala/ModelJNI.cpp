@@ -1,5 +1,5 @@
 #include "ModelJNI.h"
-#include "model.hpp"
+//#include "model.hpp"
 
 JNIEXPORT jfloatArray JNICALL Java_ModelJNI_floatArrayMethod
 (JNIEnv* env, jobject obj, jfloatArray x) {
