@@ -18,10 +18,10 @@ JNIEXPORT jlong JNICALL Java_EvalJNI_loadModel
 /*
  * Class:     EvalJNI
  * Method:    evaluate
- * Signature: (J[FI)[F
+ * Signature: (J[F)[F
  */
 JNIEXPORT jfloatArray JNICALL Java_EvalJNI_evaluate
-  (JNIEnv *, jobject, jlong, jfloatArray, jint);
+  (JNIEnv *, jobject, jlong, jfloatArray);
 
 #ifdef __cplusplus
 }

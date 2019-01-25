@@ -3,10 +3,10 @@ from torch import nn
 import numpy as np
 
 
-class Net(nn.Module):
+class Model(nn.Module):
 
     def __init__(self):
-        super(Net, self).__init__()
+        super(Model, self).__init__()
 
         self.linear = nn.Sequential(
             nn.Linear(in_features=3, out_features=100),
@@ -18,11 +18,11 @@ class Net(nn.Module):
 
 
 if __name__ == "__main__":
-    model = Net()  # TODO : load trained model
+    model = Model()  # TODO : load trained model
     tracer = torch.Tensor(np.ones((1, 3))).float()
     traced_net = torch.jit.trace(model, tracer)
 
     print(model(tracer))
     print(traced_net(tracer))
 
-    traced_net.save("traced_model.pth")
+    traced_net.save("trace_model.pth")

@@ -3,6 +3,9 @@ project(custom_ops)
 
 find_package(Torch REQUIRED)
 
+include_directories(/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include)
+include_directories(/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include/darwin)
+
 add_executable(modelBin model.cpp)
 add_library(Model SHARED model.cpp)
 target_link_libraries(modelBin "${TORCH_LIBRARIES}")
