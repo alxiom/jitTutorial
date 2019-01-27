@@ -5,6 +5,7 @@ write_python/libtorch/
 write_python/build/
 write_python/*.pth
 
-read_scala/.idea/
-read_scala/target/
-read_scala/project/target/
+serve_scala/.idea/
+serve_scala/lib/
+serve_scala/target/
+serve_scala/project/target/
