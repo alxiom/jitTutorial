@@ -1,7 +1,9 @@
 .DS_Store
 
 train_python/.idea/
+train_python/__pycache__/
 train_python/*.pth
+train_python/stock_daily_*
 
 freeze_cpp/build/
 freeze_cpp/libtorch/
