@@ -40,10 +40,6 @@ $ rm mklml_mac_2019.0.1.20181227.tgz
 ```markdown
 $ python trace_model.py
 ```
-4. copy ```trace_model.pth``` to serving module
-```markdown
-$ cp trace_model.pth ../serve_scala/src/main/resources
-```
 
 ## make model loading script in serving module (in serve_scala directory)
 1. make JNI corresponding function in ```EvalJNI.scala```
@@ -69,10 +65,16 @@ $ cmake -DCMAKE_PREFIX_PATH=/path/to/project/freeze_cpp/libtorch ..
 $ make
 $ ./binModel sample
 ```
-3. copy library file to serving module
-```markdown
-$ cp libModel.dylib ../../serve_scala/lib
-```
 
 ## run serving module (in serve_scala directory)
-1. run ```EvalJNI.scala```
+1. copy ```trace_model.pth```
+```markdown
+$ cd /path/to/project/serve_scala
+$ cp ../train_python/trace_model.pth src/main/resources
+```
+2. copy library file to serving module
+```markdown
+$ cp ../freeze_cpp/build/libModel.dylib lib
+```
+3. run ```EvalJNI.scala```
+
