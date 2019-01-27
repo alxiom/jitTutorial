@@ -24,12 +24,12 @@ std::vector<float> Model::predict (std::vector<float> x) {
 Eval::Eval () {}
 Eval::~Eval () {}
 long Eval::loadModel (const char* modelName) {
-    Model::Model* pModel = new Model::Model(modelName);
+    Model* pModel = new Model(modelName);
     return long (pModel);
 }
 float* Eval::evaluate(long pModel, float* x) {
     std::vector<float> vectorX (x, x + INPUT_SIZE);
-    std::vector<float> vectorY = ((Model::Model*)pModel) -> Model::predict(vectorX);
+    std::vector<float> vectorY = ((Model*)pModel) -> Model::predict(vectorX);
     static float y[OUTPUT_SIZE];
     for (int i = 0; i < vectorY.size(); ++i) {
         y[i] = vectorY[i];
@@ -37,30 +37,27 @@ float* Eval::evaluate(long pModel, float* x) {
     return y;
 }
 
-
 JNIEXPORT jlong JNICALL Java_EvalJNI_loadModel
   (JNIEnv * env, jobject thisObj, jstring modelName) {
-
-  //const char* modelNameString = env -> GetStringUTFChars(modelName, 0);
-  //Model model = Model("traced_model.pth");
-  //long pModel = model.loadModel("traced_model.pth");
-  //return pModel;
-  return 123456;
+  const char* modelNameString = env -> GetStringUTFChars(modelName, 0);
+  Eval eval = Eval();
+  long pModel = eval.loadModel(modelNameString);
+  env -> ReleaseStringUTFChars(modelName, modelNameString);
+  return pModel;
 }
 
 JNIEXPORT jfloatArray JNICALL Java_EvalJNI_evaluate
   (JNIEnv * env, jobject thisObj, jlong pModel, jfloatArray x) {
-    //jfloat* body = env -> GetFloatArrayElements(x, 0);
-    //jfloat* pytorch::Model
-    //pytorch::Model model = pytorch::Model("traced_model.pth");
-    //float* result = model.predict(body)
-    //static float* y;
-    //y = (float*) malloc(MAX_SIZE * sizeof(float));
-    //for (int i = 0; i < result.size(); ++i) {
-    //    y[i] = result[i];
-    //}
-    //env->ReleaseFloatArrayElements(x, body, model, result, 0);
-    return x;
+
+    jfloatArray result = env -> NewFloatArray(OUTPUT_SIZE);
+    jfloat* jX = env -> GetFloatArrayElements(x, 0);
+
+    Eval eval = Eval();
+    float* y = eval.evaluate(pModel, jX);
+
+    env -> ReleaseFloatArrayElements(x, jX, 0);
+    env -> SetFloatArrayRegion(result, 0, OUTPUT_SIZE, y);
+    return result;
 }
 
 
@@ -81,6 +78,3 @@ int main(int argc, const char* argv[]) {
     float* y = eval.evaluate(loadModel, x);
     std::cout << y[0] << " " << y[1] << " " << y[2] << " " << y[3] << " " << y[4] << std::endl;
 }
-
-
-
