@@ -12,13 +12,11 @@ class EvalJNI {
 object EvalJNI {
 
   def main(args: Array[String]): Unit = {
-    System.load("/Users/alex/git/jitTutorial/read_scala/lib/libModelJNI.so")
-//    System.setProperty("java.library.path", "/Users/alex/git/jitTutorial/read_scala/lib")
-//    System.loadLibrary("ModelJNI")
+    System.load(s"${System.getProperty("user.dir")}/lib/libModel.dylib")
 
-    val x = Array(1.0F, 1.0F, 2.0F)
+    val x = Array(1.0F, 1.0F, 1.0F)
     val eval = new EvalJNI
-    val pModel = eval.loadModel("traced_model.pth")
+    val pModel = eval.loadModel(s"${System.getProperty("user.home")}/git/jitTutorial/write_python/trace_model.pth")
     val prediction = eval.evaluate(pModel, x)
 
     println(s"model pointer: ${pModel}")
