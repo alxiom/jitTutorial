@@ -69,14 +69,14 @@ int main(int argc, const char* argv[]) {
         return -1;
     }
 
-    pytorch::Model model = pytorch::Model("../trace_model.pth");
+    pytorch::Model model = pytorch::Model("../../train_python/trace_model.pth");
     std::vector<float> vectorX = {1.0, 1.0, 1.0};
     std::vector<float> vectorY = model.predict(vectorX);
     std::cout << "model prediction" << std::endl;
     std::cout << vectorY << std::endl;
 
     pytorch::Eval eval = pytorch::Eval();
-    long loadModel = eval.loadModel("../trace_model.pth");
+    long loadModel = eval.loadModel("../../train_python/trace_model.pth");
     float* x = &vectorX[0];
     float* y = eval.evaluate(loadModel, x);
     std::cout << "external evaluation" << std::endl;
