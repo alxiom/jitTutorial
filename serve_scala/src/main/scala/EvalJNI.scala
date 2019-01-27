@@ -15,7 +15,7 @@ object EvalJNI {
     val projectPath = System.getProperty("user.dir")
     System.load(s"${projectPath}/lib/libModel.dylib")
 
-    val x = Array(1.0F, 1.0F, 1.0F)
+    val x = (1 to 35).toArray.map(i => i.toFloat)
     val eval = new EvalJNI
     val pModel = eval.loadModel(s"${projectPath}/src/main/resources/trace_model.pth")
     val prediction = eval.evaluate(pModel, x)
