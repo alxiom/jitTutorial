@@ -16,7 +16,8 @@ object EvalJNI {
 
     val x = Array(1.0F, 1.0F, 1.0F)
     val eval = new EvalJNI
-    val pModel = eval.loadModel(s"${System.getProperty("user.home")}/git/jitTutorial/write_python/trace_model.pth")
+    val projectPath = System.getProperty("user.dir").split("/").dropRight(1).mkString("/")
+    val pModel = eval.loadModel(s"${projectPath}/train_python/trace_model.pth")
     val prediction = eval.evaluate(pModel, x)
 
     println(s"model pointer: ${pModel}")
