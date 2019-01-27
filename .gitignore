@@ -1,9 +1,10 @@
 .DS_Store
 
-write_python/.idea/
-write_python/libtorch/
-write_python/build/
-write_python/*.pth
+train_python/.idea/
+train_python/*.pth
+
+freeze_cpp/build/
+freeze_cpp/libtorch/
 
 serve_scala/.idea/
 serve_scala/lib/
