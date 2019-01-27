@@ -21,59 +21,58 @@ $ brew install wget
 ```markdown
 $ wget https://download.pytorch.org/libtorch/cpu/libtorch-macos-latest.zip
 $ unzip libtorch-macos-latest.zip
-$ mv libtorch /path/to/project/write_python
+$ mv libtorch /path/to/project/freeze_cpp
 $ rm libtorch-macos-latest.zip
 ```
 4. Install mkl-ml library
 ```markdown
 $ wget https://github.com/intel/mkl-dnn/releases/download/v0.17.2/mklml_mac_2019.0.1.20181227.tgz
 $ tar -zxvf mklml_mac_2019.0.1.20181227.tgz
-$ mv mklml_mac_2019.0.1.20181227/lib/* /path/to/project/write_python/libtorch/lib/
+$ mv mklml_mac_2019.0.1.20181227/lib/* /path/to/project/freeze_cpp/libtorch/lib/
 $ rm -rf mklml_mac_2019.0.1.20181227
 $ rm mklml_mac_2019.0.1.20181227.tgz
 ```
 
-## Tracing (in write_python directory)
+## Tracing (in train_python directory)
 1. make and training model
-2. add tracing code at ```model.py```
-3. write cpp code at ```model.cpp, model.hpp```
-4. tracing model by execution
+2. add tracing code at ```trace_model.py```
+3. trace model by execution
 ```markdown
-$ python model.py
+$ python trace_model.py
+```
+4. copy ```trace_model.pth``` to serving module
+```markdown
+$ cp trace_model.pth ../serve_scala/src/main/resources
 ```
 
-## build C++ code (in write_python directory)
-1. run cmake
+## make model loading script in serving module (in serve_scala directory)
+1. make JNI corresponding function in ```EvalJNI.scala```
+2. compile scala script
 ```markdown
-$ mkdir build
-$ cd build
-$ cmake -DCMAKE_PREFIX_PATH=/path/to/project/libtorch ..
-$ make
-$ ./model sample-input
-```
-
-## make JNI script (in read_scala directory)
-1. make JNI scala code ```ModelJNI.scala```
-2. compile
-```markdown
-$ cd /path/to/project/read_scala
+$ cd /path/to/project/serve_scala
 $ sbt compile
 ```
 3. create java header (Mac)
 ```markdown
 $ cd target/scala-2.12/classes
 $ javah -cp /usr/local/Cellar/scala/2.12.8/libexec/lib/scala-library.jar:. EvalJNI
-$ mv EvalJNI.h ../../../../write_python
+$ mv EvalJNI.h ../../../../freeze_cpp
 ```
-4. copy model trace, header and library
+
+## freeze with C++ (in freeze_cpp directory)
+1. write ```model.cpp, model.hpp```
+2. run cmake
 ```markdown
-$ cd ../../../../
-$ cp write_python/traced_model.pth read_scala/src/main/scala
-$ cp write_python/model.hpp read_scala/src/main/scala
-$ cp write_python/build/libModel.dylib read_scala/lib
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_PREFIX_PATH=/path/to/project/freeze_cpp/libtorch ..
+$ make
+$ ./binModel sample
 ```
-5. make C++ script ```ModelJNI.cpp```
-6. make dylib file (Mac)
+3. copy library file to serving module
 ```markdown
-$ mv libModelJNI.so ../../../lib
+$ cp libModel.dylib ../../serve_scala/lib
 ```
+
+## run serving module (in serve_scala directory)
+1. run ```EvalJNI.scala```
