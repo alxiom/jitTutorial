@@ -73,11 +73,7 @@ $ cp write_python/model.hpp read_scala/src/main/scala
 $ cp write_python/build/libModel.dylib read_scala/lib
 ```
 5. make C++ script ```ModelJNI.cpp```
-6. make so file (Mac)
+6. make dylib file (Mac)
 ```markdown
-$ cd read_scala/src/main/scala
-$ g++ -shared -fPIC -Wall -O3 -I /Library/Java/JavaVirtualMachines/jdk1.8.0_*.jdk/Contents/Home/include -I /Library/Java/JavaVirtualMachines/jdk1.8.0_*.jdk/Contents/Home/include/darwin ModelJNI.cpp -o libModelJNI.so
 $ mv libModelJNI.so ../../../lib
 ```
-
-g++ -shared -fPIC -Wall -O3 -I /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include -I /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include/darwin -I /Users/alex/git/jitTutorial/write_python/libtorch/include -L /Users/alex/git/jitTutorial/write_python/libtorch/lib -I /Users/alex/git/jitTutorial/read_scala/lib ModelJNI.cpp -o libModelJNI.so -std=c++11 
