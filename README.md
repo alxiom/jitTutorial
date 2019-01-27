@@ -35,8 +35,7 @@ $ rm mklml_mac_2019.0.1.20181227.tgz
 
 ## Tracing (in train_python directory)
 1. make and training model
-2. add tracing code at ```trace_model.py```
-3. trace model by execution
+2. trace model by execute ```trace_model.py```
 ```markdown
 $ python trace_model.py
 ```
@@ -57,7 +56,7 @@ $ mv EvalJNI.h ../../../../freeze_cpp
 
 ## freeze with C++ (in freeze_cpp directory)
 1. write ```model.cpp, model.hpp```
-2. run cmake
+2. run make
 ```markdown
 $ mkdir build
 $ cd build
