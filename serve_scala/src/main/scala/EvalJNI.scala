@@ -12,11 +12,11 @@ class EvalJNI {
 object EvalJNI {
 
   def main(args: Array[String]): Unit = {
-    System.load(s"${System.getProperty("user.dir")}/lib/libModel.dylib")
+    val projectPath = System.getProperty("user.dir").split("/").dropRight(1).mkString("/")
+    System.load(s"${projectPath}/serve_scala/lib/libModel.dylib")
 
     val x = Array(1.0F, 1.0F, 1.0F)
     val eval = new EvalJNI
-    val projectPath = System.getProperty("user.dir").split("/").dropRight(1).mkString("/")
     val pModel = eval.loadModel(s"${projectPath}/train_python/trace_model.pth")
     val prediction = eval.evaluate(pModel, x)
 
