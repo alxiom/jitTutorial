@@ -1,4 +1,4 @@
-# PyTorch JIT
+# from PyTorch JIT to Scala
 
 ## Requirements
 + cmake == 3.13.3
@@ -36,9 +36,10 @@ $ rm mklml_mac_2019.0.1.20181227.tgz
 ```
 
 ## Tracing (in train_python directory)
-1. make and training model
+1. make and training model with PyTorch
 2. trace model by train & execute tracing with ```main.py```
 ```markdown
+$ cd /path/to/project/train_python
 $ python main.py
 ```
 
@@ -60,6 +61,7 @@ $ mv EvalJNI.h ../../../../freeze_cpp
 1. write ```model.cpp, model.hpp```
 2. run make (fix ```CMakeLists.txt``` with actual java library path)
 ```markdown
+$ cd /path/to/project/freeze_cpp
 $ mkdir build
 $ cd build
 $ cmake -DCMAKE_PREFIX_PATH=/path/to/project/freeze_cpp/libtorch ..
