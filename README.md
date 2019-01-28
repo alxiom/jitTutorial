@@ -10,6 +10,7 @@
 1. Upgrade PyTorch
 ```markdown
 $ pip install --upgrade torch
+$ pip install --upgrade numpy
 ```
 2. Install requirements (Mac)
 ```markdown
