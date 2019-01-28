@@ -4,6 +4,7 @@
 + cmake == 3.13.3
 + scala == 2.12.8
 + java == 1.8.0
++ numpy == 1.16.0
 
 ## Preparation
 1. Upgrade PyTorch
@@ -35,9 +36,9 @@ $ rm mklml_mac_2019.0.1.20181227.tgz
 
 ## Tracing (in train_python directory)
 1. make and training model
-2. trace model by execute ```trace_model.py```
+2. trace model by train & execute tracing with ```main.py```
 ```markdown
-$ python trace_model.py
+$ python main.py
 ```
 
 ## make model loading script in serving module (in serve_scala directory)
@@ -56,7 +57,7 @@ $ mv EvalJNI.h ../../../../freeze_cpp
 
 ## freeze with C++ (in freeze_cpp directory)
 1. write ```model.cpp, model.hpp```
-2. run make
+2. run make (fix ```CMakeLists.txt``` with actual java library path)
 ```markdown
 $ mkdir build
 $ cd build
@@ -69,10 +70,12 @@ $ ./binModel sample
 1. copy ```trace_model.pth```
 ```markdown
 $ cd /path/to/project/serve_scala
+$ mkdir src/main/resources
 $ cp ../train_python/trace_model.pth src/main/resources
 ```
 2. copy library file to serving module
 ```markdown
+$ mkdir lib
 $ cp ../freeze_cpp/build/libModel.dylib lib
 ```
 3. run ```EvalJNI.scala```
