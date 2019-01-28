@@ -7,7 +7,7 @@
 + numpy == 1.16.0
 
 ## Preparation
-1. Upgrade PyTorch
+1. Upgrade PyTorch and Numpy
 ```markdown
 $ pip install --upgrade torch
 $ pip install --upgrade numpy
