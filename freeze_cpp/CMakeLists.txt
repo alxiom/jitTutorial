@@ -3,8 +3,8 @@ project(custom_ops)
 
 find_package(Torch REQUIRED)
 
-include_directories(/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/include)
-include_directories(/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/include/darwin)
+include_directories(/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include)
+include_directories(/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/include/darwin)
 
 add_executable(binModel Model.cpp)
 add_library(Model SHARED Model.cpp)

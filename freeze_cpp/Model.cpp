@@ -3,9 +3,11 @@
 #include "Model.hpp"
 #include "EvalJNI.h"
 #define INPUT_BATCH_SIZE 1
-#define INPUT_SEQUENCE_SIZE 7
-#define INPUT_ELEMENT_SIZE 5
-#define OUTPUT_SIZE 1
+//#define INPUT_SEQUENCE_SIZE 7
+//#define INPUT_ELEMENT_SIZE 5
+#define INPUT_ELEMENT_SIZE 3
+//#define OUTPUT_SIZE 1
+#define OUTPUT_SIZE 3
 using namespace std;
 
 namespace pytorch {
@@ -15,7 +17,8 @@ namespace pytorch {
     }
     Model::~Model () {}
     vector<float> Model::predict (vector<float> x) {
-        at::Tensor inputVector = torch::from_blob(&x[0], {INPUT_BATCH_SIZE, INPUT_SEQUENCE_SIZE, INPUT_ELEMENT_SIZE}, at::kFloat).clone();
+        //at::Tensor inputVector = torch::from_blob(&x[0], {INPUT_BATCH_SIZE, INPUT_SEQUENCE_SIZE, INPUT_ELEMENT_SIZE}, at::kFloat).clone();
+        at::Tensor inputVector = torch::from_blob(&x[0], {INPUT_BATCH_SIZE, INPUT_ELEMENT_SIZE}, at::kFloat).clone();
         vector<torch::jit::IValue> inputTensor;
         inputTensor.push_back(inputVector);
         at::Tensor outputTensor = this -> module -> forward(inputTensor).toTensor();
@@ -30,7 +33,8 @@ namespace pytorch {
         return long (pModel);
     }
     float* Eval::evaluate(long pModel, float* x) {
-        vector<float> vectorX (x, x + INPUT_BATCH_SIZE * INPUT_SEQUENCE_SIZE * INPUT_ELEMENT_SIZE);
+        //vector<float> vectorX (x, x + INPUT_BATCH_SIZE * INPUT_SEQUENCE_SIZE * INPUT_ELEMENT_SIZE);
+        vector<float> vectorX (x, x + INPUT_BATCH_SIZE * INPUT_ELEMENT_SIZE);
         vector<float> vectorY = ((Model*)pModel) -> Model::predict(vectorX);
         static float y[OUTPUT_SIZE];
         for (int i = 0; i < OUTPUT_SIZE; ++i) {
@@ -51,7 +55,6 @@ JNIEXPORT jlong JNICALL Java_EvalJNI_loadModel
 
 JNIEXPORT jfloatArray JNICALL Java_EvalJNI_evaluate
   (JNIEnv * env, jobject thisObj, jlong pModel, jfloatArray x) {
-
     jfloatArray result = env -> NewFloatArray(OUTPUT_SIZE);
     jfloat* jX = env -> GetFloatArrayElements(x, 0);
 
@@ -72,8 +75,9 @@ int main(int argc, const char* argv[]) {
 
     pytorch::Model model = pytorch::Model("../../train_python/trace_model.pth");
     vector<float> vectorX;
-    for (int i = 0; i < INPUT_BATCH_SIZE * INPUT_SEQUENCE_SIZE * INPUT_ELEMENT_SIZE; ++i) {
-	vectorX.push_back(i + 1);
+    //for (int i = 0; i < INPUT_BATCH_SIZE * INPUT_SEQUENCE_SIZE * INPUT_ELEMENT_SIZE; ++i) {
+    for (int i = 0; i < INPUT_BATCH_SIZE * INPUT_ELEMENT_SIZE; ++i) {
+	    vectorX.push_back(i + 1);
     }
     vector<float> vectorY = model.predict(vectorX);
     cout << "model prediction" << endl;
