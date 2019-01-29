@@ -13,17 +13,17 @@ class Trace:
         hidden_dim = config.hidden_dim
         output_dim = config.output_dim
 
-        load_net = model.Net(data_dim, hidden_dim, output_dim, 1)
-        load_net.load_state_dict(torch.load("save_model.pth"))
+        load_model = model.Net(data_dim, hidden_dim, output_dim, 1)
+        load_model.load_state_dict(torch.load("save_model.pth"))
         tracer = torch.Tensor(np.arange(1, seq_length * data_dim + 1).reshape((1, seq_length, data_dim))).float()
         print(tracer)
-        traced_net = torch.jit.trace(load_net, tracer)
+        trace_model = torch.jit.trace(load_model, tracer)
 
-        print(load_net(tracer))
-        print(traced_net(tracer))
+        print(load_model(tracer))
+        print(trace_model(tracer))
 
         print("tracing model...")
-        traced_net.save("trace_model.pth")
+        trace_model.save("trace_model.pth")
         print("done")
 
 
