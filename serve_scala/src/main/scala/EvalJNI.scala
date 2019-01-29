@@ -2,6 +2,10 @@
   * Created by alex on 15/01/2019
   */
 
+import com.google.inject.{Guice, Injector}
+import javax.inject.Singleton
+
+@Singleton
 class EvalJNI {
 
   @native def loadModel(modelName: String): Long
@@ -11,17 +15,20 @@ class EvalJNI {
 
 object EvalJNI {
 
+  val projectPath: String = System.getProperty("user.dir")
+  System.load(s"${projectPath}/lib/libModel.dylib")
+
+  val injector: Injector = Guice.createInjector()
+  val evalJNI: EvalJNI = injector.getInstance(classOf[EvalJNI])
+
   def main(args: Array[String]): Unit = {
-    val projectPath = System.getProperty("user.dir")
-    System.load(s"${projectPath}/lib/libModel.dylib")
-
-    val x = (1 to 35).toArray.map(i => i.toFloat)
-    val eval = new EvalJNI
-    val pModel = eval.loadModel(s"${projectPath}/src/main/resources/trace_model.pth")
-    val prediction = eval.evaluate(pModel, x)
-
-    println(s"model pointer: ${pModel}")
-    println(s"prediction: ${prediction.mkString(",")}")
+    val x = (1 to 3).toArray.map(i => i.toFloat)
+    val pModel: Long = evalJNI.loadModel(s"${projectPath}/src/main/resources/trace_model.pth")
+    (1 to 100).foreach(_ => {
+      val st = System.currentTimeMillis()
+      val prediction = evalJNI.evaluate(pModel, x)
+      println(s"${System.currentTimeMillis() - st} prediction: ${prediction.mkString(",")}")
+    })
   }
 
 }
