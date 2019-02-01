@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def minmax_scaler(data):
+def scale_minmax(data):
     numerator = data - np.min(data, 0)
     denominator = np.max(data, 0) - np.min(data, 0)
     return numerator / (denominator + 1e-7)

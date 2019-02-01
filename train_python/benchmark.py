@@ -28,24 +28,6 @@ class BenchmarkModel(nn.Module):
             nn.Linear(in_features=4096, out_features=4096),
             # nn.BatchNorm1d(num_features=4096),
             nn.Tanh(),
-            # nn.Linear(in_features=4096, out_features=4096),
-            # nn.BatchNorm1d(num_features=4096),
-            # nn.Tanh(),
-            # nn.Linear(in_features=4096, out_features=4096),
-            # nn.BatchNorm1d(num_features=4096),
-            # nn.Tanh(),
-            # nn.Linear(in_features=4096, out_features=4096),
-            # nn.BatchNorm1d(num_features=4096),
-            # nn.Tanh(),
-            # nn.Linear(in_features=4096, out_features=4096),
-            # nn.BatchNorm1d(num_features=4096),
-            # nn.Tanh(),
-            # nn.Linear(in_features=4096, out_features=4096),
-            # nn.BatchNorm1d(num_features=4096),
-            # nn.Tanh(),
-            # nn.Linear(in_features=4096, out_features=4096),
-            # nn.BatchNorm1d(num_features=4096),
-            # nn.Tanh(),
             nn.Linear(in_features=4096, out_features=3)
         )
 
@@ -54,25 +36,27 @@ class BenchmarkModel(nn.Module):
 
 
 if __name__ == '__main__':
-    load_model = BenchmarkModel()
-    load_model.eval()
+    benchmark_model = BenchmarkModel()
+    benchmark_model.eval()
     tracer = torch.Tensor(np.random.random(size=(1, 3))).float()
     print(tracer)
-    trace_model = torch.jit.trace(load_model, tracer)
+    trace_model = torch.jit.trace(benchmark_model, tracer)
 
-    trace_output = trace_model(tracer)
-    print("trace_output", trace_output)
+    print("model_output", benchmark_model(tracer))
+    print("trace_output", trace_model(tracer))
 
     print("regular model elapsed time")
-    s = time.time()
-    load_model(tracer)
-    t = time.time()
-    print(t - s)
+    st = time.time()
+    benchmark_model(tracer)
+    et = time.time()
+    print(et - st)
 
     print("traced model elapsed time")
-    s = time.time()
+    st = time.time()
     trace_model(tracer)
-    t = time.time()
-    print(t - s)
+    et = time.time()
+    print(et - st)
 
+    print("tracing model...")
     trace_model.save("trace_model.pth")
+    print("done")

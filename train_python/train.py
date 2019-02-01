@@ -20,26 +20,29 @@ class Train:
         iterations = config.iterations
 
         train_set = np.loadtxt("stock_daily_train.csv", delimiter=",")
-        train_set = util.minmax_scaler(train_set)
-        trainX, trainY = util.build_dataset(train_set, seq_length)
-        trainX_tensor = torch.Tensor(trainX).float()
-        trainY_tensor = torch.Tensor(trainY).float()
+        train_set = util.scale_minmax(train_set)
+        train_x, train_y = util.build_dataset(train_set, seq_length)
+        train_x_tensor = torch.Tensor(train_x).float()
+        train_y_tensor = torch.Tensor(train_y).float()
 
-        net = model.Net(data_dim, hidden_dim, output_dim, 1)
+        lstm_model = model.LSTMModel(data_dim, hidden_dim, output_dim, 1)
         criterion = torch.nn.MSELoss()
-        optimizer = optim.Adam(net.parameters(), lr=learning_rate)
+        optimizer = optim.Adam(lstm_model.parameters(), lr=learning_rate)
 
+        lstm_model.train()
         for i in range(iterations):
 
             optimizer.zero_grad()
-            outputs = net(trainX_tensor)
-            loss = criterion(outputs, trainY_tensor)
+            outputs = lstm_model(train_x_tensor)
+            loss = criterion(outputs, train_y_tensor)
             loss.backward()
             optimizer.step()
-            print(i + 1, loss.item())
+
+            if (i + 1) % 10 == 0:
+                print("{:3d} {}".format(i + 1, loss.item()))
             if i + 1 == iterations:
                 print("save model...")
-                torch.save(net.state_dict(), "save_model.pth")
+                torch.save(lstm_model.state_dict(), "save_model.pth")
                 print("done")
 
 

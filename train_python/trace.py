@@ -13,14 +13,15 @@ class Trace:
         hidden_dim = config.hidden_dim
         output_dim = config.output_dim
 
-        load_model = model.Net(data_dim, hidden_dim, output_dim, 1)
-        load_model.load_state_dict(torch.load("save_model.pth"))
+        lstm_model = model.LSTMModel(data_dim, hidden_dim, output_dim, 1)
+        lstm_model.load_state_dict(torch.load("save_model.pth"))
+        lstm_model.eval()
         tracer = torch.Tensor(np.arange(1, seq_length * data_dim + 1).reshape((1, seq_length, data_dim))).float()
         print(tracer)
-        trace_model = torch.jit.trace(load_model, tracer)
+        trace_model = torch.jit.trace(lstm_model, tracer)
 
-        print(load_model(tracer))
-        print(trace_model(tracer))
+        print("model_output", lstm_model(tracer))
+        print("trace_output", trace_model(tracer))
 
         print("tracing model...")
         trace_model.save("trace_model.pth")

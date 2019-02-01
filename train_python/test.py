@@ -16,15 +16,15 @@ class Test:
         output_dim = config.output_dim
 
         test_set = np.loadtxt("stock_daily_test.csv", delimiter=",")
-        test_set = util.minmax_scaler(test_set)
+        test_set = util.scale_minmax(test_set)
         test_x, test_y = util.build_dataset(test_set, seq_length)
         test_x_tensor = torch.Tensor(test_x).float()
 
-        load_net = model.Net(data_dim, hidden_dim, output_dim, 1)
-        load_net.load_state_dict(torch.load("save_model.pth"))
+        lstm_model = model.LSTMModel(data_dim, hidden_dim, output_dim, 1)
+        lstm_model.load_state_dict(torch.load("save_model.pth"))
 
         plt.plot(test_y)
-        plt.plot(load_net(test_x_tensor).data.numpy())
+        plt.plot(lstm_model(test_x_tensor).data.numpy())
         plt.legend(["original", "prediction"])
         plt.show()
 
