@@ -10,6 +10,7 @@ freeze_cpp/libtorch/
 
 serve_scala/.idea/
 serve_scala/lib/
+serve_scala/logs/
 serve_scala/target/
 serve_scala/project/target/
 serve_scala/src/main/resources/*.pth
