@@ -22,7 +22,7 @@ object EvalJNI {
   val evalJNI: EvalJNI = injector.getInstance(classOf[EvalJNI])
 
   def main(args: Array[String]): Unit = {
-    val x = (1 to 3).toArray.map(i => i.toFloat)
+    val x = (1 to 35).toArray.map(i => i.toFloat)
     val pModel: Long = evalJNI.loadModel(s"${projectPath}/src/main/resources/trace_model.pth")
     (1 to 100).foreach(_ => {
       val st = System.currentTimeMillis()
