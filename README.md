@@ -81,5 +81,6 @@ $ cp ../train_python/trace_model.pth src/main/resources
 $ mkdir lib
 $ cp ../freeze_cpp/build/libModel.dylib lib
 ```
-3. run ```EvalJNI.scala```
+3. run ```EvalJNI.scala``` to model speed test
+4. run ```RunServer.scala``` to start server
 
