@@ -1,4 +1,4 @@
-# from PyTorch JIT to Scala
+# serve PyTorch model with Scala (JIT tracing)
 
 ## Requirements
 + cmake == 3.13.3
