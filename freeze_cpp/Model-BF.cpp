@@ -4,9 +4,8 @@
 #include "EvalJNI.h"
 
 #define BATCH_SIZE 1
-#define INPUT_SEQUENCE_SIZE 7
-#define INPUT_FEATURE_SIZE 5
-#define OUTPUT_SIZE 1
+#define INPUT_FEATURE_SIZE 3
+#define OUTPUT_SIZE 3
 
 using namespace std;
 
@@ -17,7 +16,7 @@ namespace pytorch {
     }
     Model::~Model () {}
     vector<float> Model::predict (vector<float> x) {
-        at::Tensor inputVector = torch::from_blob(&x[0], {BATCH_SIZE, INPUT_SEQUENCE_SIZE, INPUT_FEATURE_SIZE}, at::kFloat).clone();
+        at::Tensor inputVector = torch::from_blob(&x[0], {BATCH_SIZE, INPUT_FEATURE_SIZE}, at::kFloat).clone();
         vector<torch::jit::IValue> inputTensor;
         inputTensor.push_back(inputVector);
         at::Tensor outputTensor = this -> module -> forward(inputTensor).toTensor();
@@ -32,7 +31,7 @@ namespace pytorch {
         return long (pModel);
     }
     float* Eval::evaluate(long pModel, float* x) {
-        vector<float> vectorX (x, x + BATCH_SIZE * INPUT_SEQUENCE_SIZE * INPUT_FEATURE_SIZE);
+        vector<float> vectorX (x, x + BATCH_SIZE * INPUT_FEATURE_SIZE);
         vector<float> vectorY = ((Model*)pModel) -> Model::predict(vectorX);
     	static float y[OUTPUT_SIZE];
         for (int i = 0; i < BATCH_SIZE * OUTPUT_SIZE; ++i) {
@@ -73,7 +72,7 @@ int main(int argc, const char* argv[]) {
 
     pytorch::Model model = pytorch::Model("../../train_python/trace_model.pth");
     vector<float> vectorX;
-    for (int i = 0; i < BATCH_SIZE * INPUT_SEQUENCE_SIZE * INPUT_FEATURE_SIZE; ++i) {
+    for (int i = 0; i < BATCH_SIZE * INPUT_FEATURE_SIZE; ++i) {
 	    vectorX.push_back(i + 1);
     }
     vector<float> vectorY = model.predict(vectorX);
