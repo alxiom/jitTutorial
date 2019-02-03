@@ -22,6 +22,7 @@ class Test:
 
         lstm_model = model.LSTMModel(data_dim, hidden_dim, output_dim, 1)
         lstm_model.load_state_dict(torch.load("save_model.pth"))
+        lstm_model.eval()
 
         plt.plot(test_y)
         plt.plot(lstm_model(test_x_tensor).data.numpy())

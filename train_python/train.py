@@ -26,10 +26,11 @@ class Train:
         train_y_tensor = torch.Tensor(train_y).float()
 
         lstm_model = model.LSTMModel(data_dim, hidden_dim, output_dim, 1)
+        lstm_model.train()
+
         criterion = torch.nn.MSELoss()
         optimizer = optim.Adam(lstm_model.parameters(), lr=learning_rate)
 
-        lstm_model.train()
         for i in range(iterations):
 
             optimizer.zero_grad()
