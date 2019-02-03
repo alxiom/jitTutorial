@@ -54,10 +54,16 @@ class HandleRequest @Inject()(context: ServerContext,
         Callback.successful(req.badRequest(emptyBodyErrorJson, HttpHeaders(jsonHeader)))
       } else {
         val body = bytes.utf8String
-        val requestMap = parsePostRequest(body) // TODO: Post Request should contain key "query"
-        val result = calculateRequest(requestMap("query"), evalJNI, pModel)
-        val responseJson = s"""{"status": "ok", "code": 200, "data": {"result": "${result}"}}"""
-        Callback.successful(req.ok(responseJson, HttpHeaders(jsonHeader)))
+        val requestMap = parsePostRequest(body)
+        val query = requestMap.get("query")
+        if (query.nonEmpty) {
+          val result = calculateRequest(query, evalJNI, pModel)
+          val responseJson = s"""{"status": "ok", "code": 200, "data": {"result": "${result}"}}"""
+          Callback.successful(req.ok(responseJson, HttpHeaders(jsonHeader)))
+        } else {
+          val emptyQueryErrorJson = """{"status": "error", "code": 400, "message": "missing key (query)"}"""
+          Callback.successful(req.badRequest(emptyQueryErrorJson, HttpHeaders(jsonHeader)))
+        }
       }
   }
 
