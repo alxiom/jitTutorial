@@ -1,7 +1,7 @@
-# serve PyTorch model in production with Scala  - by JIT compile
+# serve PyTorch model in production by JIT compile
 
 ## Overall Flow
-Train (Python) -> Freeze (C++) -> Serve (Scala)
+Train & Tracing (Python) -> Freeze (C++) -> Serve (Scala)
 
 ## Requirements
 + cmake == 3.13.3
