@@ -8,6 +8,7 @@ Train (Python) -> Freeze (C++) -> Serve (Scala)
 + scala == 2.12.8
 + java == 1.8.0
 + numpy == 1.16.0
++ torch = 1.0.0
 
 ## Preparation
 1. Upgrade PyTorch and Numpy
