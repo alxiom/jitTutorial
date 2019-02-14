@@ -1,4 +1,4 @@
-# serve PyTorch model in production with Scala (by JIT compile)
+# serve PyTorch model in production with Scala  - by JIT compile
 
 ## Overall Flow
 Train (Python) -> Freeze (C++) -> Serve (Scala)
