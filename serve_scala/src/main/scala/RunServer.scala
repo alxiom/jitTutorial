@@ -12,8 +12,10 @@ object RunServer {
   implicit val actorSystem: ActorSystem = ActorSystem()
   implicit val ioSystem: IOSystem = IOSystem()
 
-  private val projectPath: String = System.getProperty("user.dir")
+  private val port: Int = System.getProperty("port", "9000").toInt
   private val inputDim: Long = System.getProperty("input_dim", "35").toLong
+  private val projectPath: String = System.getProperty("user.dir")
+  System.load(s"${projectPath}/lib/libModel.dylib")
 
   private val injector: Injector = Guice.createInjector()
   private val runEval: RunEval = injector.getInstance(classOf[RunEval])
@@ -22,9 +24,8 @@ object RunServer {
 
   def main(args: Array[String]): Unit = {
     println(s"serverStart\u241Btimestamp=${System.currentTimeMillis()}\u241BmodelPointer=${modelP}")
-    System.load(s"${projectPath}/lib/libModel.dylib")
 
-    HttpServer.start("PyTorchModelServer", 9000){initContext =>
+    HttpServer.start("PyTorchModelServer", port){initContext =>
       new Initializer(initContext) {
         override def onConnect: RequestHandlerFactory = serverContext => {
           new ManageRequest(serverContext, inputDim, runEval, modelP)
