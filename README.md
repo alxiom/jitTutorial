@@ -4,6 +4,7 @@
 Train & Tracing (Python) -> Freeze (C++) -> Serve (Scala)
 
 ## Requirements
++ python == 3.7.0
 + cmake == 3.13.3
 + scala == 2.12.8
 + java == 1.8.0
