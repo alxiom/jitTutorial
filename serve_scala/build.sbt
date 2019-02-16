@@ -4,6 +4,10 @@ version := "0.1"
 
 scalaVersion := "2.12.4"
 
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+
+enablePlugins(JavaAppPackaging)
+
 val javaxV = "1"
 val guiceV = "4.0"
 val akkaV = "2.5.17"
