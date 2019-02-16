@@ -11,26 +11,23 @@ object RunServer {
 
   implicit val actorSystem: ActorSystem = ActorSystem()
   implicit val ioSystem: IOSystem = IOSystem()
-  private val log = com.typesafe.scalalogging.Logger(getClass)
 
-  val projectPath: String = System.getProperty("user.dir")
-  System.load(s"${projectPath}/lib/libModel.dylib")
+  private val projectPath: String = System.getProperty("user.dir")
+  private val inputDim: Long = System.getProperty("input_dim", "35").toLong
 
-  val injector: Injector = Guice.createInjector()
-  val evalJNI: EvalJNI = injector.getInstance(classOf[EvalJNI])
-  val calculateRequest: CalculateRequest = injector.getInstance(classOf[CalculateRequest])
+  private val injector: Injector = Guice.createInjector()
+  private val runEval: RunEval = injector.getInstance(classOf[RunEval])
+  private val evalJNI: EvalJNI = injector.getInstance(classOf[EvalJNI])
+  private val modelP: Long = evalJNI.loadModel(s"${projectPath}/src/main/resources/trace_model.pth")
 
   def main(args: Array[String]): Unit = {
-    println(s"serverStart=${System.currentTimeMillis()}")
-    log.info(s"serverStart=${System.currentTimeMillis()}")
-
-    val pModel: Long = evalJNI.loadModel(s"${projectPath}/src/main/resources/trace_model.pth")
-    log.info(s"modelPointer=${pModel}")
+    println(s"serverStart\u241Btimestamp=${System.currentTimeMillis()}\u241BmodelPointer=${modelP}")
+    System.load(s"${projectPath}/lib/libModel.dylib")
 
     HttpServer.start("PyTorchModelServer", 9000){initContext =>
       new Initializer(initContext) {
         override def onConnect: RequestHandlerFactory = serverContext => {
-          new HandleRequest(serverContext, evalJNI, pModel, calculateRequest)
+          new ManageRequest(serverContext, inputDim, runEval, modelP)
         }
       }
     }
