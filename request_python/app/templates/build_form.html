@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Upload PyTorch Model</title>
+    <style>
+        form div + div {
+            margin-top: 1em;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upload Model Data</h2>
+    <form method="post" enctype="multipart/form-data">
+        <div>
+            <label>Input Dimension : </label>
+            <input type="text" name="inputSize" size="11">
+        </div>
+
+        <div>
+            <label>Output Dimension : </label>
+            <input type="text" name="outputSize" size="11">
+        </div>
+
+        <div>
+            <label>Model File (*.pth) : </label>
+            <input type="file" name="model">
+        </div>
+
+        <div>
+            <label></label>
+            <input type="submit" onclick="submitForm()">
+        </div>
+    </form>
+</body>
+</html>
