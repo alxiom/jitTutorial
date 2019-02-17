@@ -5,6 +5,11 @@ import hashlib
 BASE = 62
 DEFAULT_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 ALLOWED_EXTENSIONS = {"pth"}
+PARAMETER_MAP = {
+    "inputFeatureSize": "INPUT_FEATURE_SIZE",
+    "inputSequenceSize": "INPUT_SEQUENCE_SIZE",
+    "outputFeatureSize": "OUTPUT_SIZE"
+}
 
 
 def allowed_file(filename):
@@ -36,6 +41,9 @@ def ensure_dir(upload_path):
         os.makedirs(upload_dir, exist_ok=True)
 
 
-
-
-
+def make_cpp_header(meta_map):
+    header_string = ""
+    meta_keys = meta_map.keys()
+    for key in meta_keys:
+        header_string += f"#define {PARAMETER_MAP.get(key)} {meta_map.get(key)}\n"
+    return header_string

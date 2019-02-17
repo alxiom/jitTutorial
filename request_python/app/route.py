@@ -1,6 +1,5 @@
 import utils
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
 
 UPLOAD_PATH = "/Users/alexkim/Downloads/modelDB/uid=0"
 
@@ -16,24 +15,20 @@ def index():
 @app.route("/builder", methods=["GET", "POST"])
 def upload_data():
     if request.method == "POST":
-        model_meta = request.form.keys()
-        if "inputSize" not in model_meta or "outputSize" not in model_meta or "model" not in request.files:
-            print("input error")
+        meta_map = request.form
+        if not all(meta_map.values()) or "model" not in request.files:
             return redirect(request.url)
         else:
-            input_size = int(request.form.get("inputSize"))
-            output_size = int(request.form.get("outputSize"))
             model = request.files["model"]
-            if input_size == 0 or output_size == 0 or not utils.allowed_file(model.filename):
-                print("non valid input")
+            if any([int(i) == 0 for i in meta_map.values()]) or not utils.allowed_file(model.filename):
                 return redirect(request.url)
             else:
                 dt = utils.timestamp_hash()
                 utils.ensure_dir(f"{UPLOAD_PATH}/dt={dt}/")
-                model_name = f"{secure_filename(model.filename)}"
-                with open(f"{UPLOAD_PATH}/dt={dt}/{model_name}.meta", "w", encoding="utf-8") as meta:
-                    meta.write(f"inputSize={input_size}\noutputSize={output_size}")
-                model.save(f"{UPLOAD_PATH}/dt={dt}/{model_name}")
+                with open(f"{UPLOAD_PATH}/dt={dt}/ModelIO.hpp", "w", encoding="utf-8") as meta:
+                    message = utils.make_cpp_header(meta_map)
+                    meta.write(message)
+                model.save(f"{UPLOAD_PATH}/dt={dt}/trace_model.pth")
                 return redirect(url_for("uploaded_data", dt=dt))
     else:
         return render_template("build_form.html")

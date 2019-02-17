@@ -17,3 +17,5 @@ serve_scala/src/main/resources/*.pth
 serve_scala/project/project/
 
 request_python/.idea/
+request_python/__pycache__/
+request_python/*.pyc
