@@ -3,6 +3,17 @@
     <meta charset="utf-8">
     <title>Upload PyTorch Model</title>
     <style>
+        body{
+            margin-top: 100px;
+            font-family: 'Trebuchet MS', serif;
+            line-height: 1.6
+        }
+
+        .container{
+            width: 400px;
+            margin: 0 auto;
+        }
+
         form div + div {
             margin-top: 1em;
         }
@@ -12,30 +23,38 @@
             width: 150px;
             text-align: right;
         }
+
+        input {
+            line-height: 1.6
+        }
     </style>
 </head>
 <body>
-    <h2>Upload Model Data</h2>
-    <form method="post" enctype="multipart/form-data">
+    <div class="container">
+        <h2>Upload Model Data</h2>
         <div>
-            <label>Input Dimension : </label>
-            <input type="text" name="inputSize" size="11">
-        </div>
+            <form method="post" enctype="multipart/form-data">
+                <div>
+                    <label>Input Dimension : </label>
+                    <input type="text" name="inputSize" size="11">
+                </div>
 
-        <div>
-            <label>Output Dimension : </label>
-            <input type="text" name="outputSize" size="11">
-        </div>
+                <div>
+                    <label>Output Dimension : </label>
+                    <input type="text" name="outputSize" size="11">
+                </div>
 
-        <div>
-            <label>Model File (*.pth) : </label>
-            <input type="file" name="model">
-        </div>
+                <div>
+                    <label>Model File (*.pth) : </label>
+                    <input type="file" name="model">
+                </div>
 
-        <div>
-            <label></label>
-            <input type="submit" onclick="submitForm()">
+                <div>
+                    <label></label>
+                    <input type="submit">
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </body>
 </html>

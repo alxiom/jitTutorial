@@ -15,3 +15,5 @@ serve_scala/target/
 serve_scala/project/target/
 serve_scala/src/main/resources/*.pth
 serve_scala/project/project/
+
+request_python/.idea/
