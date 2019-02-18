@@ -80,6 +80,7 @@
 
         <div id="dnn" class="tab-content current">
             <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="dnn">
                 <div>
                     <label>Input Dimension : </label>
                     <input type="text" name="inputFeatureSize" size="11" placeholder="feature">
@@ -104,6 +105,7 @@
 
         <div id="rnn" class="tab-content">
             <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="rnn">
                 <div>
                     <label>Input Dimension : </label>
                     <input type="text" name="inputSequenceSize" size="11" placeholder="sequence"> &times;

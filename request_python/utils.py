@@ -1,6 +1,7 @@
 import os
 import time
 import hashlib
+import subprocess
 
 BASE = 62
 DEFAULT_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -47,3 +48,11 @@ def make_cpp_header(meta_map):
     for key in meta_keys:
         header_string += f"#define {PARAMETER_MAP.get(key)} {meta_map.get(key)}\n"
     return header_string
+
+
+def build_model_server(build_id, model_type):
+    print(build_id)
+    if model_type == "dnn":
+        subprocess.call("./build.sh")
+    else:
+        subprocess.call("./build.sh")

@@ -18,4 +18,6 @@ serve_scala/project/project/
 
 request_python/.idea/
 request_python/__pycache__/
+request_python/app/__pycache__/
 request_python/*.pyc
+request_python/modelDB/uid=0/
