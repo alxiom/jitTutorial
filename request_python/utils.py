@@ -51,8 +51,7 @@ def make_cpp_header(meta_map):
 
 
 def build_model_server(build_id, model_type):
-    print(build_id)
     if model_type == "dnn":
-        subprocess.call("./build.sh")
+        subprocess.call(f"./build.sh {model_type} {build_id}", shell=True)
     else:
-        subprocess.call("./build.sh")
+        subprocess.call(f"./build.sh {model_type} {build_id}", shell=True)
