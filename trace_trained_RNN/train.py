@@ -18,8 +18,9 @@ class Train:
         output_dim = config.output_dim
         learning_rate = config.learning_rate
         iterations = config.iterations
+        train_data_path = config.train_data_path
 
-        train_set = np.loadtxt("stock_daily_train.csv", delimiter=",")
+        train_set = np.loadtxt(train_data_path, delimiter=",")
         train_set = util.scale_minmax(train_set)
         train_x, train_y = util.build_dataset(train_set, seq_length)
         train_x_tensor = torch.Tensor(train_x).float()
@@ -43,7 +44,7 @@ class Train:
                 print("{:3d} {}".format(i + 1, loss.item()))
             if i + 1 == iterations:
                 print("save model...")
-                torch.save(lstm_model.state_dict(), "save_model.pth")
+                torch.save(lstm_model.state_dict(), "train_checkpoint.pth")
                 print("done")
 
 

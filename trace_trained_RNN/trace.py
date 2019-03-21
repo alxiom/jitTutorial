@@ -14,7 +14,7 @@ class Trace:
         output_dim = config.output_dim
 
         lstm_model = model.LSTMModel(data_dim, hidden_dim, output_dim, 1)
-        lstm_model.load_state_dict(torch.load("save_model.pth"))
+        lstm_model.load_state_dict(torch.load("train_checkpoint.pth"))
         lstm_model.eval()
 
         tracer = torch.Tensor(np.arange(1, seq_length * data_dim + 1).reshape((1, seq_length, data_dim))).float()

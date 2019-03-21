@@ -8,8 +8,8 @@ class Preprocess:
         super(Preprocess, self).__init__()
         seq_length = config.seq_length
         data_path = config.data_path
-        train_set_save_path = config.train_set_save_path
-        test_set_save_path = config.test_set_save_path
+        train_data_path = config.train_data_path
+        test_data_path = config.test_data_path
         split_ratio = 0.7
 
         xy = np.loadtxt(data_path, delimiter=",")
@@ -20,11 +20,11 @@ class Preprocess:
         test_set = xy[train_size - seq_length:]
 
         print("save train set...")
-        np.savetxt(train_set_save_path, train_set, delimiter=",", encoding="utf-8")
+        np.savetxt(train_data_path, train_set, delimiter=",", encoding="utf-8")
         print("done")
 
         print("save test set...")
-        np.savetxt(test_set_save_path, test_set, delimiter=",", encoding="utf-8")
+        np.savetxt(test_data_path, test_set, delimiter=",", encoding="utf-8")
         print("done")
 
 
