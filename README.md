@@ -8,16 +8,20 @@
 
 ## Preparation
 1. Upgrade PyTorch
-```markdown
+```
 pip install --upgrade pip
 pip install --upgrade torch
 pip install --upgrade numpy
 ```
 
-## Tracing 
-1. create and training a model in PyTorch
-2. trace model by execute tracing (refer ```trace.py``` in ```main.py```)
-```markdown
-cd /path/to/project/trace_trained_RNN
+## Tracing (refer ```trace_benchmark_DNN/benchmark.py``` or ```trace_trained_RNN/trace.py```)
+1. training a model in PyTorch
+2. create a "tracer" which is an input tensor of the model
+3. trace model by passing through the tracer to the model with ```torch.jit.trace(your_model, tracer)```
+
+Overall process is executed by followings
+```
+git clone https://github.com/hyoungseok/jitTutorial.git
+cd jitTutorial/trace_trained_RNN
 python main.py
 ```
