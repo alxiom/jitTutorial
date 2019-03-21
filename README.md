@@ -28,3 +28,9 @@ cd jitTutorial/trace_trained_RNN
 python main.py
 ```
 The traced file ```traced_model.pth``` will be created under the ```jitTutorial/trace_trained_RNN```
+
+## Contributors
++ YongRae Jo (dreamgonfly@gmail.com)
+
+## Author
++ Alex Kim (hyoungseok.k@gmail.com)
