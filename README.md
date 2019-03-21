@@ -29,7 +29,7 @@ python main.py
 ```
 The traced file ```traced_model.pth``` will be created under the ```jitTutorial/trace_trained_RNN```
 
-## Contributors
+## Contributor
 + YongRae Jo (dreamgonfly@gmail.com)
 
 ## Author
