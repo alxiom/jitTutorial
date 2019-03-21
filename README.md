@@ -14,7 +14,9 @@ pip install --upgrade torch
 pip install --upgrade numpy
 ```
 
-## Tracing (refer ```trace_benchmark_DNN/benchmark.py``` or ```trace_trained_RNN/trace.py```)
+## Tracing 
+Refer ```trace_benchmark_DNN/benchmark.py``` or ```trace_trained_RNN/trace.py```
+
 1. training a model in PyTorch
 2. create a "tracer" which is an input tensor of the model
 3. trace model by passing through the tracer to the model with ```torch.jit.trace(your_model, tracer)```
