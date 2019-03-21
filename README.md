@@ -15,19 +15,19 @@ pip install --upgrade numpy
 ```
 
 ## Tracing 
-Refer ```trace_benchmark_DNN/benchmark.py``` or ```trace_trained_RNN/trace.py```
+refer ```trace_benchmark_DNN/benchmark.py``` or ```trace_trained_RNN/trace.py```
 
 1. training a model in PyTorch
 2. create a "tracer" which is an input tensor of the model
 3. trace model by passing through the tracer to the model with ```torch.jit.trace(your_model, tracer)```
 
-Overall process is executed by followings
+overall process is executed by followings
 ```
 git clone https://github.com/hyoungseok/jitTutorial.git
 cd jitTutorial/trace_trained_RNN
 python main.py
 ```
-The traced file ```traced_model.pth``` will be created under the ```jitTutorial/trace_trained_RNN```
+the traced file ```traced_model.pth``` will be created under the ```jitTutorial/trace_trained_RNN```
 
 ## Contributor
 + YongRae Jo (dreamgonfly@gmail.com)
